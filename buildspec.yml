@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.13
+    commands:
+      - echo "Instalando dependencias..."
+      - pip install -r requirements.txt
+
+  pre_build:
+    commands:
+      - echo "Verificando entorno..."
+      - python --version
+      - pip --version
+
+  build:
+    commands:
+      - echo "Ejecutando pruebas unitarias..."
+      - python -m pytest tests/ -v --tb=short
+      - echo "Pruebas completadas. Creando ZIP del artefacto desplegable..."
+      - zip -r blacklist-api-artifact.zip . -x "*.git*" ".venv/*" ".pytest_cache/*" "__pycache__/*" "*/__pycache__/*" "tests/*" ".ebignore" ".gitignore" "postman/*" ".env*" "docker-compose.yml" "blacklist-api-artifact.zip"
+      - echo "Artefacto creado: blacklist-api-artifact.zip"
+
+artifacts:
+  files:
+    - blacklist-api-artifact.zip
+  discard-paths: no
