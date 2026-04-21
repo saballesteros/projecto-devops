@@ -3,6 +3,7 @@ __pycache__/
 *.pyo
 .env
 *.db
+blacklist-api-artifact.zip
 venv/
 .venv/
 .pytest_cache/

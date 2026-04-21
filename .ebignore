@@ -1,5 +1,13 @@
 venv/
+.venv/
 *.pyc
+*.db
 __pycache__/
+.pytest_cache/
 .git/
 tests/
+instance/
+postman/
+.codex
+docker-compose.yml
+blacklist-api-artifact.zip

@@ -41,11 +41,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{base_url}}/health",
-					"host": ["{{base_url}}"],
-					"path": ["health"]
-				},
+				"url": "{{base_url}}/health",
 				"description": "Verifica que el microservicio esta activo. No requiere autenticacion. Retorna 200."
 			},
 			"response": [
@@ -92,11 +88,7 @@
 					"mode": "raw",
 					"raw": "{\n    \"email\": \"spam@example.com\",\n    \"app_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"blocked_reason\": \"Envio de spam recurrente\"\n}"
 				},
-				"url": {
-					"raw": "{{base_url}}/blacklists",
-					"host": ["{{base_url}}"],
-					"path": ["blacklists"]
-				},
+				"url": "{{base_url}}/blacklists",
 				"description": "Agrega un email a la lista negra global de la organizacion.\n\n**Body (JSON):**\n- `email` (string, obligatorio): Email a agregar\n- `app_uuid` (string, obligatorio): UUID de la aplicacion cliente\n- `blocked_reason` (string, opcional, max 255 chars): Motivo del bloqueo\n\n**Codigos de respuesta:**\n- 201: Email agregado exitosamente\n- 400: Datos invalidos o campos faltantes\n- 401: Token de autorizacion faltante o invalido"
 			},
 			"response": [
@@ -157,11 +149,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{base_url}}/blacklists/spam@example.com",
-					"host": ["{{base_url}}"],
-					"path": ["blacklists", "spam@example.com"]
-				},
+				"url": "{{base_url}}/blacklists/spam@example.com",
 				"description": "Consulta si un email esta en la lista negra global y el motivo por el que fue agregado.\n\n**Parametro path:**\n- `email`: Email del cliente a consultar\n\n**Codigos de respuesta:**\n- 200: Retorna is_blacklisted (boolean) y blocked_reason (string)\n- 401: Token de autorizacion faltante o invalido"
 			},
 			"response": [
@@ -223,11 +211,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"email\": \"test@example.com\",\n    \"app_uuid\": \"550e8400-e29b-41d4-a716-446655440000\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/blacklists",
-							"host": ["{{base_url}}"],
-							"path": ["blacklists"]
-						},
+						"url": "{{base_url}}/blacklists",
 						"description": "Verifica que el endpoint rechaza solicitudes sin token de autorizacion."
 					},
 					"response": [
@@ -274,11 +258,7 @@
 							"mode": "raw",
 							"raw": "{\n    \"app_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"blocked_reason\": \"Motivo de prueba\"\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/blacklists",
-							"host": ["{{base_url}}"],
-							"path": ["blacklists"]
-						},
+						"url": "{{base_url}}/blacklists",
 						"description": "Verifica que el endpoint rechaza solicitudes sin el campo email obligatorio."
 					},
 					"response": [
@@ -316,11 +296,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{base_url}}/blacklists/noexiste@example.com",
-							"host": ["{{base_url}}"],
-							"path": ["blacklists", "noexiste@example.com"]
-						},
+						"url": "{{base_url}}/blacklists/noexiste@example.com",
 						"description": "Verifica que consultar un email que no esta en la lista negra retorna is_blacklisted=false."
 					},
 					"response": [
