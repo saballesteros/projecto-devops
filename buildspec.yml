@@ -1,16 +1,39 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
+    runtime-versions:
+      python: 3.13
     commands:
+      - echo "Instalando dependencias..."
+      - pip install -r requirements.txt
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 538067617330.dkr.ecr.us-east-1.amazonaws.com
+
+
+  pre_build:
+    commands:
+      - echo "Verificando entorno..."
+      - python --version
+      - pip --version
+
   build:
     commands:
-      - echo Build started on `date`
       - echo Building the Docker image...          
       - docker build -t python-app .
       - docker tag python-app:latest 538067617330.dkr.ecr.us-east-1.amazonaws.com/python-app:latest
+      - echo "Ejecutando pruebas unitarias..."
+      - python -m pytest tests/ -v --tb=short
+      - echo "Pruebas completadas. Creando directorio dist para artefacto desplegable..."
+      - mkdir -p dist
+      - cp -R .ebextensions/ dist/
+      - cp -R app/ dist/
+      - cp application.py dist/
+      - cp .ebignore dist/
+      - cp Procfile dist/
+      - cp requirements.txt dist/
+      - echo "Directorio dist creado."
+
   post_build:
     commands:
       - echo Build completed on `date`
@@ -20,11 +43,15 @@ phases:
       - printf '[{"name":"Container-app-python","imageUri":"538067617330.dkr.ecr.us-east-1.amazonaws.com/python-app:latest"}]' > imagedefinitions.json
       - printf '{"ImageURI":"538067617330.dkr.ecr.us-east-1.amazonaws.com/python-app:latest"}' > imageDetail.json
       - cat imagedefinitions.json 
+
+
 artifacts:
   files:
     - '**/*'
     - imagedefinitions.json
     - imageDetail.json
+  base-directory: 'dist'
+  discard-paths: no
   secondary-artifacts:
     DefinitionArtifact:
       files:
@@ -33,3 +60,5 @@ artifacts:
     ImageArtifact:
       files:
         - imageDetail.json
+
+  packaging: zip
