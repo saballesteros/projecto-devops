@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "Resources": [
+      {
+        "TargetService": {
+          "Type": "AWS::ECS::Service",
+          "Properties": {
+            "TaskDefinition": "arn:aws:ecs:us-east-1:538067617330:task-definition/task-app-python:1",
+            "LoadBalancerInfo": {
+              "ContainerName": "python-app",
+              "ContainerPort": 5000
+            }
+          }
+        }
+      }
+    ]
+  }
